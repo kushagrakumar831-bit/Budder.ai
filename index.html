@@ -651,7 +651,16 @@ body.incognito-mode #topbar{background:rgba(167,139,250,.04);}
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-const firebaseConfig={apiKey:"AIzaSyCqO4H-27pDES1mJ093Ry1FMovO-MggVZ8",authDomain:"buddy-ai-82f57.firebaseapp.com",projectId:"buddy-ai-82f57",storageBucket:"buddy-ai-82f57.firebasestorage.app",messagingSenderId:"571758045669",appId:"1:571758045669:web:45e01b476fb40c2ec3e70c"};
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCqO4H-27pDES1mJ093Ry1FMovO-MggVZ8",
+  authDomain: "buddy-ai-82f57.firebaseapp.com",
+  projectId: "buddy-ai-82f57",
+  storageBucket: "buddy-ai-82f57.firebasestorage.app",
+  messagingSenderId: "571758045669",
+  appId: "1:571758045669:web:45e01b476fb40c2ec3e70c",
+  measurementId: "G-JYK21BHD8K"
+};
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const provider=new GoogleAuthProvider();
