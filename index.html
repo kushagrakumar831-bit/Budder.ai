@@ -106,8 +106,9 @@ body.incognito #incognito-banner{display:flex;}
 .proj-label{flex:1;font-size:13px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .proj-chevron{font-size:10px;color:var(--hint);transition:transform .2s;flex-shrink:0;}
 .proj-chevron.open{transform:rotate(90deg);}
-.proj-ibtns{opacity:0;display:flex;gap:1px;flex-shrink:0;}
+.proj-ibtns{opacity:0.35;display:flex;gap:1px;flex-shrink:0;}
 .proj-hdr:hover .proj-ibtns{opacity:1;}
+@media(hover:none){.proj-ibtns{opacity:1;}}
 .pi-btn{width:19px;height:19px;border-radius:4px;border:none;background:transparent;color:var(--hint);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0;}
 .pi-btn:hover{background:rgba(255,255,255,.07);color:var(--text);}
 .pi-btn.del:hover{background:rgba(248,113,113,.12);color:var(--error);}
@@ -120,8 +121,9 @@ body.incognito #incognito-banner{display:flex;}
 .hist-lbl{flex:1;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
 .hist-item.active .hist-lbl{color:var(--accent,#7c6cf8);}
 .hist-item:hover .hist-lbl{color:var(--text);}
-.hist-acts{display:flex;gap:1px;opacity:0;flex-shrink:0;}
+.hist-acts{display:flex;gap:1px;opacity:0.3;flex-shrink:0;}
 .hist-item:hover .hist-acts{opacity:1;}
+@media(hover:none){.hist-acts{opacity:1;}}
 .h-btn{width:20px;height:20px;border-radius:5px;border:none;background:transparent;color:var(--hint);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0;}
 .h-btn:hover{background:var(--copy-bg);color:var(--text);}
 .h-btn.del:hover{background:rgba(248,113,113,.12);color:var(--error);}
@@ -199,6 +201,7 @@ body.incognito #incognito-banner{display:flex;}
 .msg-actions{display:flex;gap:4px;align-items:center;padding:2px 2px;opacity:0;transition:opacity .15s;flex-wrap:wrap;}
 .mrow:hover .msg-actions{opacity:1;}
 .mrow.user .msg-actions{justify-content:flex-end;}
+@media(hover:none){.msg-actions{opacity:1;}}
 .act-btn{padding:4px 8px;border-radius:7px;border:1px solid var(--border);background:var(--copy-bg);color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:3px;white-space:nowrap;}
 .act-btn:hover{background:var(--card);color:var(--text);border-color:rgba(124,108,248,.3);}
 .act-btn.copied{color:var(--green);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08);}
@@ -246,7 +249,11 @@ body.incognito #incognito-banner{display:flex;}
 .m-btn:not(.primary):hover{background:var(--card);color:var(--text);}
 
 /* SETTINGS */
-#settings-modal .modal{max-width:500px;max-height:90vh;overflow-y:auto;}
+#settings-modal .modal{max-width:500px;max-height:90vh;overflow-y:hidden;display:flex;flex-direction:column;padding:0;}
+.settings-sticky{padding:22px 22px 0;flex-shrink:0;background:var(--modal-bg);border-radius:18px 18px 0 0;}
+.settings-scroll{flex:1;overflow-y:auto;padding:12px 22px 22px;-webkit-overflow-scrolling:touch;}
+.settings-scroll::-webkit-scrollbar{width:3px;}
+.settings-scroll::-webkit-scrollbar-thumb{background:var(--scrollbar);border-radius:3px;}
 .settings-section{margin-bottom:20px;}
 .settings-section:last-child{margin-bottom:0;}
 .settings-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;font-weight:600;}
@@ -499,17 +506,20 @@ body.incognito #incognito-banner{display:flex;}
 <!-- SETTINGS -->
 <div id="settings-modal" class="modal-backdrop">
   <div class="modal" id="settings-inner">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div class="settings-sticky">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
       <div class="modal-title" style="margin-bottom:0;">Settings</div>
       <button onclick="closeModal('settings-modal')" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:6px;">×</button>
     </div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:12px);">
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0;border-bottom:1px solid var(--border);padding-bottom:12px;">
       <button class="ptab active" id="stab-general" onclick="switchSettingsTab('general',this)" style="background:var(--accent,#7c6cf8);color:#fff;">General</button>
       <button class="ptab" id="stab-api" onclick="switchSettingsTab('api',this)">API Keys</button>
       <button class="ptab" id="stab-persona" onclick="switchSettingsTab('persona',this)">Persona</button>
       <button class="ptab" id="stab-memory" onclick="switchSettingsTab('memory',this)">Memory</button>
       <button class="ptab" id="stab-account" onclick="switchSettingsTab('account',this)">Account</button>
     </div>
+    </div>
+    <div class="settings-scroll">
     <div id="stab-general-panel">
       <div class="settings-section">
         <div class="settings-label">Theme</div>
@@ -605,7 +615,19 @@ body.incognito #incognito-banner{display:flex;}
     </div>
   </div>
 </div>
+  </div>
+</div>
 
+<div id="confirm-modal" class="modal-backdrop">
+  <div class="modal" style="max-width:340px;">
+    <div class="modal-title" id="confirm-title">Are you sure?</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;" id="confirm-msg"></p>
+    <div class="modal-btns">
+      <button class="m-btn" onclick="closeModal('confirm-modal');window.__confirmReject&&window.__confirmReject();">Cancel</button>
+      <button class="m-btn" id="confirm-ok-btn" style="color:var(--error);border-color:rgba(248,113,113,.3);" onclick="closeModal('confirm-modal');window.__confirmResolve&&window.__confirmResolve();">Delete</button>
+    </div>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
@@ -615,7 +637,7 @@ const PROVIDERS = {
   groq:     {name:'Groq',      color:'#f97316', url:'https://api.groq.com/openai/v1/chat/completions',
              models:['llama-3.3-70b-versatile','llama-3.1-8b-instant','mixtral-8x7b-32768','gemma2-9b-it']},
   gemini:   {name:'Gemini',    color:'#4285F4', url:'https://generativelanguage.googleapis.com/v1beta/models/MODEL:generateContent',
-             models:['gemini-1.5-flash','gemini-1.5-pro','gemini-2.0-flash-exp']},
+             models:['gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-pro','gemini-2.0-flash-lite']},
   openai:   {name:'OpenAI',    color:'#10a37f', url:'https://api.openai.com/v1/chat/completions',
              models:['gpt-4o-mini','gpt-4o','gpt-3.5-turbo']},
   cohere:   {name:'Cohere',    color:'#9966ff', url:'https://api.cohere.ai/v2/chat',
@@ -774,6 +796,20 @@ function buildAccentSwatches(){
 }
 
 // ── SETTINGS ─────────────────────────────────────────────
+function customConfirm(msg,btnLabel,btnColor){
+  return new Promise(resolve=>{
+    document.getElementById('confirm-title').textContent='Are you sure?';
+    document.getElementById('confirm-msg').textContent=msg;
+    const btn=document.getElementById('confirm-ok-btn');
+    btn.textContent=btnLabel||'Delete';
+    btn.style.background=btnColor||'transparent';
+    btn.style.color=btnColor?'#fff':'var(--error)';
+    btn.style.borderColor=btnColor?'transparent':'rgba(248,113,113,.3)';
+    window.__confirmResolve=()=>resolve(true);
+    window.__confirmReject=()=>resolve(false);
+    openModal('confirm-modal');
+  });
+}
 window.openSettings=function(){updateSettingsUI();openModal('settings-modal');};
 window.switchSettingsTab=function(tab,btn){
   document.querySelectorAll('#settings-inner .ptab').forEach(b=>{b.classList.remove('active');b.style.background='';b.style.color='';});
@@ -856,8 +892,8 @@ window.saveEditedKey=function(){
   if(!getKey(getActiveProvider())){setActiveProvider(editingProvider);setActiveModel(PROVIDERS[editingProvider].models[0]);}
   closeModal('key-edit-modal');buildApiKeysUI();updateProviderIndicator();showToast(PROVIDERS[editingProvider].name+' key saved!');
 };
-window.removeProviderKey=function(){
-  if(!confirm('Remove '+PROVIDERS[editingProvider].name+' key?'))return;
+window.removeProviderKey=async function(){
+  if(!await customConfirm('Remove '+PROVIDERS[editingProvider].name+' API key?','Remove'))return;
   rmKey(editingProvider);
   if(getActiveProvider()===editingProvider){
     const other=Object.keys(PROVIDERS).find(p=>p!==editingProvider&&getKey(p));
@@ -947,8 +983,8 @@ function renderSidebar(q=''){
       const lbl=document.createElement('span');lbl.className='proj-label';lbl.textContent=proj.name;
       const chev=document.createElement('span');chev.className='proj-chevron'+(proj.collapsed?'':' open');chev.textContent='▶';
       const ibtns=document.createElement('div');ibtns.className='proj-ibtns';
-      const rn=document.createElement('button');rn.className='pi-btn';rn.innerHTML='✎';rn.onclick=e=>{e.stopPropagation();const n=prompt('Rename:',proj.name);if(n?.trim()){proj.name=n.trim();saveData();renderSidebar();}};
-      const dl=document.createElement('button');dl.className='pi-btn del';dl.innerHTML='×';dl.onclick=e=>{e.stopPropagation();if(confirm('Delete project?')){sessions.forEach(s=>{if(s.projectId===proj.id)s.projectId=null;});projects=projects.filter(p=>p.id!==proj.id);saveData();renderSidebar();}};
+      const rn=document.createElement('button');rn.className='pi-btn';rn.innerHTML='✎';rn.title='Rename';rn.onclick=e=>{e.stopPropagation();renamingId=null;const inp=document.getElementById('rename-input');if(inp){inp.value=proj.name;inp.dataset.projId=proj.id;document.querySelector('#rename-modal .modal-title').textContent='Rename Project';}openModal('rename-modal');setTimeout(()=>document.getElementById('rename-input')?.focus(),100);};
+      const dl=document.createElement('button');dl.className='pi-btn del';dl.innerHTML='×';dl.onclick=async e=>{e.stopPropagation();if(await customConfirm('Delete project and ungroup its chats?','Delete')){sessions.forEach(s=>{if(s.projectId===proj.id)s.projectId=null;});projects=projects.filter(p=>p.id!==proj.id);saveData();renderSidebar();}};
       ibtns.appendChild(rn);ibtns.appendChild(dl);
       hdr.appendChild(dot);hdr.appendChild(lbl);hdr.appendChild(ibtns);hdr.appendChild(chev);
       hdr.onclick=()=>{proj.collapsed=!proj.collapsed;saveData();renderSidebar();};
@@ -988,7 +1024,7 @@ function makeChatItem(s){
   const movBtn=document.createElement('button');movBtn.className='h-btn';movBtn.innerHTML='📁';
   movBtn.onclick=e=>{e.stopPropagation();openMoveModal(s.id);};
   const delBtn=document.createElement('button');delBtn.className='h-btn del';delBtn.innerHTML='×';
-  delBtn.onclick=e=>{e.stopPropagation();if(confirm('Delete this chat?'))deleteSession(s.id);};
+  delBtn.onclick=async e=>{e.stopPropagation();if(await customConfirm('Delete this chat? This cannot be undone.','Delete'))deleteSession(s.id);};
   acts.appendChild(pinBtn);acts.appendChild(renBtn);acts.appendChild(movBtn);acts.appendChild(delBtn);
   item.appendChild(ico);item.appendChild(lbl);item.appendChild(acts);
   item.onclick=()=>loadChat(s.id);
@@ -1003,9 +1039,9 @@ function loadChat(id){
   if(window.innerWidth<=720)closeSidebar();
 }
 window.newChat=function(){currentId=null;msgsEl.innerHTML='';showWelcomeScreen();titleEl.textContent='NEXA';renderSidebar(document.getElementById('search-input').value);closeSidebar();inputEl.focus();};
-window.deleteCurrentChat=function(){if(!currentId)return;if(confirm('Delete this chat?'))deleteSession(currentId);};
-window.clearAllChats=function(){if(!confirm('Delete ALL chats?'))return;sessions=[];saveData();currentId=null;msgsEl.innerHTML='';showWelcomeScreen();titleEl.textContent='NEXA';renderSidebar();closeModal('settings-modal');};
-window.clearAllData=function(){if(!confirm('Reset ALL data including API keys?'))return;localStorage.clear();location.reload();};
+window.deleteCurrentChat=async function(){if(!currentId)return;if(await customConfirm('Delete this chat?','Delete'))deleteSession(currentId);};
+window.clearAllChats=async function(){if(!await customConfirm('Delete ALL chat history? This cannot be undone.','Delete All','#ef4444'))return;sessions=[];saveData();currentId=null;msgsEl.innerHTML='';showWelcomeScreen();titleEl.textContent='NEXA';renderSidebar();closeModal('settings-modal');};
+window.clearAllData=async function(){if(!await customConfirm('Reset ALL data including API keys? You will need to re-add your keys.','Reset All','#ef4444'))return;localStorage.clear();location.reload();};
 function deleteSession(id){sessions=sessions.filter(s=>s.id!==id);saveData();if(currentId===id){currentId=null;showWelcomeScreen();}renderSidebar();}
 function createSession(text){const id='c'+Date.now();const title=text.length>42?text.slice(0,42)+'…':text;const s={id,title,createdAt:Date.now(),projectId:null,pinned:false,messages:[]};sessions.unshift(s);saveData();return s;}
 window.onSearch=function(q){document.getElementById('search-clear').classList.toggle('show',q.length>0);renderSidebar(q);};
@@ -1013,7 +1049,24 @@ window.clearSearch=function(){document.getElementById('search-input').value='';d
 
 // ── RENAME ───────────────────────────────────────────────
 window.openRenameModal=function(id){renamingId=id;const s=getSession(id);if(!s)return;document.getElementById('rename-input').value=s.title;openModal('rename-modal');setTimeout(()=>document.getElementById('rename-input').focus(),100);};
-window.confirmRename=function(){const v=document.getElementById('rename-input').value.trim();if(!v)return;const s=getSession(renamingId);if(!s)return;s.title=v;saveData();renderSidebar(document.getElementById('search-input').value);if(currentId===renamingId)titleEl.textContent=v;closeModal('rename-modal');};
+window.confirmRename=function(){
+  const inp=document.getElementById('rename-input');
+  const v=inp.value.trim();if(!v)return;
+  const projId=inp.dataset.projId;
+  if(projId){
+    // renaming a project
+    const proj=projects.find(p=>p.id===projId);
+    if(proj){proj.name=v;saveData();renderSidebar();}
+    inp.dataset.projId='';
+    document.querySelector('#rename-modal .modal-title').textContent='Rename Chat';
+  } else {
+    // renaming a chat
+    const s=getSession(renamingId);if(!s)return;
+    s.title=v;saveData();renderSidebar(document.getElementById('search-input').value);
+    if(currentId===renamingId)titleEl.textContent=v;
+  }
+  closeModal('rename-modal');
+};
 document.getElementById('rename-input').addEventListener('keydown',e=>{if(e.key==='Enter')window.confirmRename();});
 
 // ── PROJECTS ─────────────────────────────────────────────
@@ -1132,14 +1185,65 @@ async function callAPI(messages,attempt=1){
     } else if(p==='gemini'){
       const model=getActiveModel();
       const url=cfg.url.replace('MODEL',model)+`?key=${key}`;
-      const gemMsgs=messages.map(m=>({'role':m.role==='assistant'?'model':'user','parts':[{'text':m.content}]}));
-      const res=await fetch(url,{method:'POST',signal:ctrl.signal,headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({system_instruction:{parts:[{text:sys}]},contents:gemMsgs,generationConfig:{maxOutputTokens:1024,temperature:0.8}})
+      // Build Gemini contents — must strictly alternate user/model
+      const raw=messages.map(m=>({role:m.role==='assistant'?'model':'user',text:m.content}));
+      const merged=[];
+      raw.forEach(m=>{
+        if(merged.length>0&&merged[merged.length-1].role===m.role){
+          merged[merged.length-1].parts[0].text+='\n'+m.text;
+        } else {
+          merged.push({role:m.role,parts:[{text:m.text}]});
+        }
       });
+      // Must start with user
+      while(merged.length>0&&merged[0].role!=='user')merged.shift();
+      // Must end with user
+      while(merged.length>0&&merged[merged.length-1].role!=='user')merged.pop();
+      if(merged.length===0)merged.push({role:'user',parts:[{text:messages[messages.length-1]?.content||'Hello'}]});
+      const body={
+        contents:merged,
+        system_instruction:{parts:[{text:sys}]},
+        generationConfig:{maxOutputTokens:1500,temperature:0.8,candidateCount:1}
+      };
+      let res;
+      try{
+        res=await fetch(url,{method:'POST',signal:ctrl.signal,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      }catch(fetchErr){
+        clearTimeout(timer);
+        if(fetchErr.name==='AbortError'){if(attempt<3)return callAPI(messages,attempt+1);throw new Error('Gemini timed out.');}
+        throw new Error('Gemini network error: '+fetchErr.message);
+      }
       clearTimeout(timer);
-      if(res.status===403)throw new Error('Invalid Gemini API key.');
-      if(!res.ok){let m=res.statusText;try{const e=await res.json();m=e?.error?.message||m;}catch(_){}throw new Error(m);}
-      data=await res.json();return data.candidates?.[0]?.content?.parts?.[0]?.text||'Empty reply';
+      if(res.status===400){
+        let em='Bad request';
+        try{const ej=await res.json();em=ej?.error?.message||em;}catch(_){}
+        // If system_instruction not supported, retry without it
+        if(em.includes('system_instruction')||em.includes('systemInstruction')){
+          delete body.system_instruction;
+          const r2=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+          if(!r2.ok){let m2=r2.statusText;try{const e2=await r2.json();m2=e2?.error?.message||m2;}catch(_){}throw new Error('Gemini: '+m2);}
+          const d2=await r2.json();
+          const t2=d2.candidates?.[0]?.content?.parts?.[0]?.text;
+          if(!t2)throw new Error('Gemini returned empty response.');
+          return t2;
+        }
+        throw new Error('Gemini: '+em);
+      }
+      if(res.status===403||res.status===401)throw new Error('Invalid Gemini API key. Get a free key at aistudio.google.com');
+      if(res.status===429){if(attempt<3){await sleep(2000*attempt);return callAPI(messages,attempt+1);}throw new Error('Gemini rate limit. Wait a moment or switch models.');}
+      if(res.status>=500){if(attempt<3){await sleep(1500*attempt);return callAPI(messages,attempt+1);}throw new Error('Gemini server error. Try again.');}
+      if(!res.ok){let m=res.statusText;try{const e=await res.json();m=e?.error?.message||m;}catch(_){}throw new Error('Gemini: '+m);}
+      data=await res.json();
+      const txt=data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if(!txt){
+        const reason=data.candidates?.[0]?.finishReason||'UNKNOWN';
+        if(reason==='SAFETY')throw new Error('Gemini blocked this for safety reasons. Try rephrasing.');
+        if(reason==='RECITATION')throw new Error('Gemini blocked due to recitation policy. Try rephrasing.');
+        const errMsg=data?.error?.message||data?.promptFeedback?.blockReason;
+        if(errMsg)throw new Error('Gemini: '+errMsg);
+        throw new Error('Gemini returned empty response (reason: '+reason+'). Try again.');
+      }
+      return txt;
     } else if(p==='cohere'){
       const coMsgs=messages.map(m=>({'role':m.role==='assistant'?'CHATBOT':'USER','message':m.content}));
       const res=await fetch(cfg.url,{method:'POST',signal:ctrl.signal,
